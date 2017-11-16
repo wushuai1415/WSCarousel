@@ -15,7 +15,7 @@ struct CarouselInfo {
     var scale:CGFloat? = 1;
 }
 
-class WSCarouselView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     static let CELL_IDENTIFIER = "CAROUSEL_CELL_IDENTIFIER"
     static let CELL_MIN_SPACING: CGFloat = 10000
@@ -63,16 +63,16 @@ class WSCarouselView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         self.addSubview(self.collectionView);
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - UICollectionViewDelegate
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3;
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WSCarouselView.CELL_IDENTIFIER, for: indexPath);
         return cell;
     }
