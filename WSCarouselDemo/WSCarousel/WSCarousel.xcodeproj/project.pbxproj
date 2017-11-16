@@ -12,6 +12,7 @@
 		1C6F9FAF1FBD80AC008C83BE /* WSCarousel.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 1C6F9FAC1FBD80AC008C83BE /* WSCarousel.podspec */; };
 		1C6F9FB01FBD80AC008C83BE /* WSCarouselCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6F9FAD1FBD80AC008C83BE /* WSCarouselCollectionViewFlowLayout.swift */; };
 		1C6F9FB11FBD80AC008C83BE /* WSCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6F9FAE1FBD80AC008C83BE /* WSCarouselView.swift */; };
+		1C6F9FB31FBD853D008C83BE /* WSCarousel.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 1C6F9FB21FBD853D008C83BE /* WSCarousel.podspec */; };
 		1C880EBF1FBC10C0008471CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C880EBE1FBC10C0008471CC /* AppDelegate.swift */; };
 		1C880EC11FBC10C0008471CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C880EC01FBC10C0008471CC /* ViewController.swift */; };
 		1C880EC41FBC10C0008471CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C880EC21FBC10C0008471CC /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 		1C6F9FAC1FBD80AC008C83BE /* WSCarousel.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WSCarousel.podspec; sourceTree = "<group>"; };
 		1C6F9FAD1FBD80AC008C83BE /* WSCarouselCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSCarouselCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		1C6F9FAE1FBD80AC008C83BE /* WSCarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSCarouselView.swift; sourceTree = "<group>"; };
+		1C6F9FB21FBD853D008C83BE /* WSCarousel.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WSCarousel.podspec; path = ../../../WSCarousel.podspec; sourceTree = "<group>"; };
 		1C880EBB1FBC10C0008471CC /* WSCarousel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WSCarousel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C880EBE1FBC10C0008471CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C880EC01FBC10C0008471CC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				1C880EC51FBC10C0008471CC /* Assets.xcassets */,
 				1C880EC71FBC10C0008471CC /* LaunchScreen.storyboard */,
 				1C880ECA1FBC10C0008471CC /* Info.plist */,
+				1C6F9FB21FBD853D008C83BE /* WSCarousel.podspec */,
 			);
 			path = WSCarousel;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 			files = (
 				1C880EC91FBC10C0008471CC /* LaunchScreen.storyboard in Resources */,
 				1C880EC61FBC10C0008471CC /* Assets.xcassets in Resources */,
+				1C6F9FB31FBD853D008C83BE /* WSCarousel.podspec in Resources */,
 				1C6F9FAF1FBD80AC008C83BE /* WSCarousel.podspec in Resources */,
 				1C6F9F9B1FBC20B8008C83BE /* WSCollectionViewCell.xib in Resources */,
 				1C880EC41FBC10C0008471CC /* Main.storyboard in Resources */,

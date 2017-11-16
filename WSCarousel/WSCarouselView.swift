@@ -65,7 +65,7 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
     private var carouselInfo: CarouselInfo;
     
     
-    init(frame: CGRect, carouselInfo:CarouselInfo) {
+    public init(frame: CGRect, carouselInfo:CarouselInfo) {
         self.carouselInfo = carouselInfo;
         super.init(frame: frame);
         
