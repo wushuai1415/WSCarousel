@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct CarouselInfo {
+public struct CarouselInfo {
     var collectionViewName: String!;
     var itemSize: CGSize?;
     var minimumSpacing: CGFloat!;
