@@ -12,7 +12,16 @@ public struct CarouselInfo {
     var itemSize: CGSize?;
     var minimumSpacing: CGFloat!;
     var scrollDirection: UICollectionViewScrollDirection;
-    var scale:CGFloat? = 1;
+    public var scale:CGFloat? = 1;
+    public init(collectionViewName:String,
+         itemSize:CGSize,
+         minimumSpacing:CGFloat,
+         scrollDirection:UICollectionViewScrollDirection) {
+        self.collectionViewName = collectionViewName;
+        self.itemSize = itemSize;
+        self.minimumSpacing = minimumSpacing;
+        self.scrollDirection = scrollDirection;
+    }
 }
 
 public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {

@@ -16,8 +16,7 @@ class ViewController: UIViewController {
         let info = CarouselInfo.init(collectionViewName: "WSCollectionViewCell",
                                      itemSize: CGSize.init(width: 300, height: 500),
                                      minimumSpacing: 10,
-                                     scrollDirection: UICollectionViewScrollDirection.horizontal,
-                                     scale: nil);
+                                     scrollDirection: UICollectionViewScrollDirection.horizontal);
         let carouselView = WSCarouselView.init(frame: CGRect.init(x: 0, y: 50, width: 375, height: 660), carouselInfo: info);
         self.view.addSubview(carouselView);
     }
