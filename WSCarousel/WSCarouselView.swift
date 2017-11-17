@@ -52,7 +52,7 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
         collectionView.delegate = self;
         collectionView.dataSource = self;
         collectionView.decelerationRate = 0;
-        collectionView.register(swiftClassFromString(className: self.carouselInfo.collectionViewName), forCellWithReuseIdentifier: WSCarouselView.CELL_IDENTIFIER)
+        collectionView.register(self.swiftClassFromString(className: self.carouselInfo.collectionViewName), forCellWithReuseIdentifier: WSCarouselView.CELL_IDENTIFIER)
 
         return collectionView;
     }()
