@@ -24,6 +24,7 @@ class ViewController: UIViewController {
                                      scrollDirection: UICollectionViewScrollDirection.vertical,
                                      datas: models);
         info.scale = 0.8;
+        info.isInfinite = true;
         let carouselView = WSCarouselView.init(frame: CGRect.init(x: 0, y: 50, width: 375, height: 660), carouselInfo: info);
         self.view.addSubview(carouselView);
     }

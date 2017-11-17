@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol WSCarouselCollectionCellDelegate {
+public protocol WSCarouselCollectionCellDelegate {
     func setModel(model: AnyObject);
 }

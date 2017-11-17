@@ -17,11 +17,12 @@ class WSCarouselCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
-        let inset = ((self.collectionView?.frame.size.width)! - self.itemSize.width) * 0.5;
         // 设置第一个和最后一个默认居中显示
         if self.scrollDirection == UICollectionViewScrollDirection.horizontal {
+            let inset = ((self.collectionView?.frame.size.width)! - self.itemSize.width) * 0.5;
             self.collectionView?.contentInset = UIEdgeInsetsMake(0, inset, 0, inset);
         } else {
+            let inset = ((self.collectionView?.frame.size.height)! - self.itemSize.height) * 0.5;
             self.collectionView?.contentInset = UIEdgeInsetsMake(inset, 0, inset, 0);
         }
         
@@ -110,7 +111,7 @@ class WSCarouselCollectionViewFlowLayout: UICollectionViewFlowLayout {
             }
             
             //3. 补回ContentOffset，则正好将Item居中显示
-            return CGPoint.init(x: proposedContentOffset.x + minCenter, y: proposedContentOffset.y);
+            return CGPoint.init(x: proposedContentOffset.x, y: proposedContentOffset.y + minCenter);
         }
 
     }

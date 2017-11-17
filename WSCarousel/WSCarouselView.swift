@@ -15,6 +15,7 @@ public struct CarouselInfo {
     var minimumSpacing: CGFloat!;
     var scrollDirection: UICollectionViewScrollDirection!;
     var datas: NSArray!;
+    public var isInfinite:Bool? = false;
     public var scale:CGFloat? = 1;
     public var backgroudColor:UIColor? = UIColor.white;
     public init(collectionViewName:String,
@@ -73,12 +74,7 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
         super.init(frame: frame);
         
         self.addSubview(self.collectionView);
-        self.layoutIfNeeded();
-        if self.carouselInfo.scrollDirection == UICollectionViewScrollDirection.horizontal {
-            self.collectionView.scrollToItem(at: IndexPath.init(row: 0, section: MAX_SECTION_NUM/2), at: UICollectionViewScrollPosition.centeredHorizontally, animated: false);
-        } else {
-            self.collectionView.scrollToItem(at: IndexPath.init(row: 0, section: MAX_SECTION_NUM/2), at: UICollectionViewScrollPosition.centeredVertically, animated: false);
-        }
+        self.scrollToCenterItem();
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -87,7 +83,7 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
     
     // MARK: - UICollectionViewDelegate
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return MAX_SECTION_NUM;
+        return self.carouselInfo.isInfinite! ? MAX_SECTION_NUM : 1;
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -103,16 +99,19 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
     }
-    
-    // MARK: - ScrollViewDelegate
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        scrollToIndex();
-    }
-    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        scrollToIndex();
-    }
 
     // MARK: - private
+    func scrollToCenterItem() {
+        if self.carouselInfo.isInfinite! {
+            self.layoutIfNeeded();
+            if self.carouselInfo.scrollDirection == UICollectionViewScrollDirection.horizontal {
+                self.collectionView.scrollToItem(at: IndexPath.init(row: 0, section: MAX_SECTION_NUM/2), at: UICollectionViewScrollPosition.centeredHorizontally, animated: false);
+            } else {
+                self.collectionView.scrollToItem(at: IndexPath.init(row: 0, section: MAX_SECTION_NUM/2), at: UICollectionViewScrollPosition.centeredVertically, animated: false);
+            }
+        }
+    }
+    
     func swiftClassFromString(className: String) -> AnyClass! {
         // get the project name
         if  let appName: String = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String? {
