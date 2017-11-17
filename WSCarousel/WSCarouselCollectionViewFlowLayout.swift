@@ -36,15 +36,19 @@ class WSCarouselCollectionViewFlowLayout: UICollectionViewFlowLayout {
             }
             
             var scaleNum : CGFloat;
+            let a = abs(attrs.center.x - collectionViewCenterX);
+            let b = (self.itemSize.width+self.minimumLineSpacing) * 0.5;
             // 防止突变的情况(当Item的中心与collectionView中心的距离大于等于collectionView宽度的一半时，Item不缩放，平稳过度)
-            if(abs(attrs.center.x - collectionViewCenterX) >= (self.collectionView?.frame.size.width)! * 0.5) {
-                scaleNum = scale!;
+            if(a >= b) {
+                scaleNum = 1-((1-scale!)*(a-b)/b);
             } else {
                 scaleNum = 1;
             }
             
             attrs.transform3D = CATransform3DMakeScale(scaleNum, scaleNum, 1);
         }
+//        let a:UICollectionViewLayoutAttributes = attributes[2] as! UICollectionViewLayoutAttributes;
+//        a.zIndex = 1;
         
         return (attributes as! [UICollectionViewLayoutAttributes]);
     }
