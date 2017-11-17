@@ -19,13 +19,18 @@ class WSCarouselCollectionViewFlowLayout: UICollectionViewFlowLayout {
         
         let inset = ((self.collectionView?.frame.size.width)! - self.itemSize.width) * 0.5;
         // 设置第一个和最后一个默认居中显示
-        self.collectionView?.contentInset = UIEdgeInsetsMake(0, inset, 0, inset);
+        if self.scrollDirection == UICollectionViewScrollDirection.horizontal {
+            self.collectionView?.contentInset = UIEdgeInsetsMake(0, inset, 0, inset);
+        } else {
+            self.collectionView?.contentInset = UIEdgeInsetsMake(inset, 0, inset, 0);
+        }
         
         var visibleRect:CGRect = CGRect.init();
         visibleRect.origin = (self.collectionView?.contentOffset)!;
         visibleRect.size = (self.collectionView?.frame.size)!;
         
         let collectionViewCenterX = (self.collectionView?.contentOffset.x)! + (self.collectionView?.frame.size.width)! * 0.5;
+        let collectionViewCenterY = (self.collectionView?.contentOffset.y)! + (self.collectionView?.frame.size.height)! * 0.5;
         
         let attributes = NSArray.init(array: super.layoutAttributesForElements(in: rect)!, copyItems: true);
         for attribute in attributes {
@@ -36,14 +41,30 @@ class WSCarouselCollectionViewFlowLayout: UICollectionViewFlowLayout {
             }
             
             var scaleNum : CGFloat;
-            let a = abs(attrs.center.x - collectionViewCenterX);
-            let b = (self.itemSize.width+self.minimumLineSpacing) * 0.5;
-            // 防止突变的情况(当Item的中心与collectionView中心的距离大于等于collectionView宽度的一半时，Item不缩放，平稳过度)
-            if(a >= b) {
-                scaleNum = 1-((1-scale!)*(a-b)/b);
+            if self.scrollDirection == UICollectionViewScrollDirection.horizontal {
+                // item 偏移视图中心的角力
+                let x_offset = abs(attrs.center.x - collectionViewCenterX);
+                // 两个item的中心距离
+                let centerDistance = (self.itemSize.width+self.minimumLineSpacing) * 0.5;
+                // 防止突变的情况(当Item的中心与collectionView中心的距离大于等于collectionView宽度的一半时，Item不缩放，平稳过度)
+                if(x_offset >= centerDistance) {
+                    scaleNum = 1-((1-scale!)*(x_offset-centerDistance)/centerDistance);
+                } else {
+                    scaleNum = 1;
+                }
             } else {
-                scaleNum = 1;
+                // item 偏移视图中心的角力
+                let x_offset = abs(attrs.center.y - collectionViewCenterY);
+                // 两个item的中心距离
+                let centerDistance = (self.itemSize.height+self.minimumLineSpacing) * 0.5;
+                // 防止突变的情况(当Item的中心与collectionView中心的距离大于等于collectionView宽度的一半时，Item不缩放，平稳过度)
+                if(x_offset >= centerDistance) {
+                    scaleNum = 1-((1-scale!)*(x_offset-centerDistance)/centerDistance);
+                } else {
+                    scaleNum = 1;
+                }
             }
+
             
             attrs.transform3D = CATransform3DMakeScale(scaleNum, scaleNum, 1);
         }
@@ -69,16 +90,29 @@ class WSCarouselCollectionViewFlowLayout: UICollectionViewFlowLayout {
         let array = self.layoutAttributesForElements(in: contentFrame);
         
         //2. 计算在可视范围的距离中心线最近的Item
-        var minCenterX = CGFloat.greatestFiniteMagnitude;
-        let collectionViewCenterX = proposedContentOffset.x + (self.collectionView?.frame.size.width)! * 0.5;
-        for attrs in array! {
-            if(abs(attrs.center.x - collectionViewCenterX) < abs(minCenterX)){
-                minCenterX = attrs.center.x - collectionViewCenterX;
+        var minCenter = CGFloat.greatestFiniteMagnitude;
+        if self.scrollDirection == UICollectionViewScrollDirection.horizontal {
+            let collectionViewCenterX = proposedContentOffset.x + (self.collectionView?.frame.size.width)! * 0.5;
+            for attrs in array! {
+                if(abs(attrs.center.x - collectionViewCenterX) < abs(minCenter)){
+                    minCenter = attrs.center.x - collectionViewCenterX;
+                }
             }
+            
+            //3. 补回ContentOffset，则正好将Item居中显示
+            return CGPoint.init(x: proposedContentOffset.x + minCenter, y: proposedContentOffset.y);
+        } else {
+            let collectionViewCenterY = proposedContentOffset.y + (self.collectionView?.frame.size.height)! * 0.5;
+            for attrs in array! {
+                if(abs(attrs.center.y - collectionViewCenterY) < abs(minCenter)){
+                    minCenter = attrs.center.y - collectionViewCenterY;
+                }
+            }
+            
+            //3. 补回ContentOffset，则正好将Item居中显示
+            return CGPoint.init(x: proposedContentOffset.x + minCenter, y: proposedContentOffset.y);
         }
-        
-        //3. 补回ContentOffset，则正好将Item居中显示
-        return CGPoint.init(x: proposedContentOffset.x + minCenterX, y: proposedContentOffset.y);
+
     }
 }
 

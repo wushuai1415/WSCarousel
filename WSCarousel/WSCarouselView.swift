@@ -13,17 +13,20 @@ public struct CarouselInfo {
     var collectionViewName: String!;
     var itemSize: CGSize!;
     var minimumSpacing: CGFloat!;
-    var scrollDirection: UICollectionViewScrollDirection;
+    var scrollDirection: UICollectionViewScrollDirection!;
+    var datas: NSArray!;
     public var scale:CGFloat? = 1;
     public var backgroudColor:UIColor? = UIColor.white;
     public init(collectionViewName:String,
-         itemSize:CGSize,
-         minimumSpacing:CGFloat,
-         scrollDirection:UICollectionViewScrollDirection) {
+                          itemSize:CGSize,
+                    minimumSpacing:CGFloat,
+                   scrollDirection:UICollectionViewScrollDirection,
+                             datas:NSArray) {
         self.collectionViewName = collectionViewName;
         self.itemSize = itemSize;
         self.minimumSpacing = minimumSpacing;
         self.scrollDirection = scrollDirection;
+        self.datas = datas;
     }
 }
 
@@ -39,7 +42,11 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
         flowLayout.minimumInteritemSpacing = WSCarouselView.CELL_MIN_SPACING;
         flowLayout.scrollDirection = self.carouselInfo.scrollDirection;
         flowLayout.itemSize = self.carouselInfo.itemSize;
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: 5, bottom: 0, right: 5);
+        if self.carouselInfo.scrollDirection == UICollectionViewScrollDirection.horizontal {
+            flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: self.carouselInfo.minimumSpacing/2, bottom: 0, right: self.carouselInfo.minimumSpacing/2);
+        } else {
+            flowLayout.sectionInset = UIEdgeInsets.init(top: self.carouselInfo.minimumSpacing/2, left: 0, bottom: self.carouselInfo.minimumSpacing/2, right: 0);
+        }
         if let scale = self.carouselInfo.scale {
             flowLayout.scale = scale;
         }
@@ -48,6 +55,8 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
     lazy private var collectionView: UICollectionView = {
         () -> UICollectionView in
         let collectionView = UICollectionView.init(frame: self.bounds, collectionViewLayout: self.collectionViewFlowLayout);
+        collectionView.showsVerticalScrollIndicator = false;
+        collectionView.showsHorizontalScrollIndicator = false;
         collectionView.backgroundColor = self.carouselInfo.backgroudColor;
         collectionView.delegate = self;
         collectionView.dataSource = self;
@@ -65,7 +74,11 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
         
         self.addSubview(self.collectionView);
         self.layoutIfNeeded();
-        self.collectionView.scrollToItem(at: IndexPath.init(row: 0, section: MAX_SECTION_NUM/2), at: UICollectionViewScrollPosition.centeredHorizontally, animated: false);
+        if self.carouselInfo.scrollDirection == UICollectionViewScrollDirection.horizontal {
+            self.collectionView.scrollToItem(at: IndexPath.init(row: 0, section: MAX_SECTION_NUM/2), at: UICollectionViewScrollPosition.centeredHorizontally, animated: false);
+        } else {
+            self.collectionView.scrollToItem(at: IndexPath.init(row: 0, section: MAX_SECTION_NUM/2), at: UICollectionViewScrollPosition.centeredVertically, animated: false);
+        }
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -78,12 +91,13 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3;
+        return self.carouselInfo.datas.count;
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WSCarouselView.CELL_IDENTIFIER, for: indexPath);
-        return cell;
+        let cell:WSCarouselCollectionCellDelegate = collectionView.dequeueReusableCell(withReuseIdentifier: WSCarouselView.CELL_IDENTIFIER, for: indexPath) as! WSCarouselCollectionCellDelegate;
+        cell.setModel(model: self.carouselInfo.datas.object(at: indexPath.row) as AnyObject);
+        return cell as! UICollectionViewCell;
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -119,7 +133,11 @@ public final class WSCarouselView: UIView, UICollectionViewDelegate, UICollectio
         
         if let _ = indexPath {
 //            let toIndexPath = IndexPath.init(row: ((indexPath?.row)!)%3, section: (indexPath?.section)!)
-            self.collectionView.scrollToItem(at: indexPath!, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true);
+            if self.carouselInfo.scrollDirection == UICollectionViewScrollDirection.horizontal {
+                self.collectionView.scrollToItem(at: indexPath!, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true);
+            } else {
+                self.collectionView.scrollToItem(at: indexPath!, at: UICollectionViewScrollPosition.centeredVertically, animated: true);
+            }
         }
     }
 }

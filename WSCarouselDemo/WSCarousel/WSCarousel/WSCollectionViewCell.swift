@@ -7,8 +7,8 @@
 
 import UIKit
 
-class WSCollectionViewCell: UICollectionViewCell {
-
+class WSCollectionViewCell: UICollectionViewCell, WSCarouselCollectionCellDelegate {
+    
     lazy var label:UILabel = {
         () -> UILabel in
         let label = UILabel.init(frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
@@ -30,6 +30,11 @@ class WSCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    // MARK: - WSCarouselCollectionCellDelegate
+    func setModel(model: AnyObject) {
+        label.text = (model as! String);
     }
 
 }
